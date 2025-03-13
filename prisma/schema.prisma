@@ -27,6 +27,116 @@ model users {
   password String
   phone String
   role userType
+  buses buses[]
+  booking booking[]
+  payments payments[]
+  reviews reviews[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+
+enum busType {
+  AC
+  Non_AC
+  Sleeper
+  Luxury
+}
+
+model buses {
+  id Int @id @default(autoincrement())
+  bus_no String @unique
+  bus_name String
+  bus_type busType
+  total_seats Int
+  operator_id Int
+  users users @relation(fields: [operator_id], references: [id], onDelete: Cascade)
+  schedules schedules[]
+  reviews reviews[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model routes {
+  id Int @id @default(autoincrement())
+  start_location String
+  end_location String
+  duration Int
+  distance Float
+  schedules schedules[]
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+}
+
+model schedules {
+  id Int @id @default(autoincrement())
+  bus_id Int
+  buses buses @relation(fields: [bus_id], references: [id], onDelete: Cascade)
+  route_id Int
+  routes routes @relation(fields: [route_id], references: [id], onDelete: Cascade)
+  departure_time DateTime @default(now())
+  arrival_time DateTime @default(now())
+  available_seats Int
+  price Decimal
+  booking booking[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+enum bookingType {
+ pending 
+ confirmed
+ cancelled
+}
+model booking {
+  id Int @id @default(autoincrement())
+  user_id Int
+  users users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  bus_schedule_id Int
+  schedules schedules @relation(fields: [bus_schedule_id], references: [id], onDelete: Cascade)
+  seat_number String
+  status bookingType
+  payments payments?
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+enum paymentType {
+  card
+  UPI
+  wallet
+  cash
+  mobileBanking
+}
+
+enum paymentStatusType {
+  pending
+  successful
+  failed
+}
+
+model payments {
+  id Int @id @default(autoincrement())
+  booking_id Int @unique
+  booking booking @relation(fields: [booking_id], references: [id], onDelete: Cascade)
+  user_id Int
+  users users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  amount Decimal
+  payment_method paymentType
+  status paymentStatusType
+  transaction_id String @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model reviews {
+  id Int @id @default(autoincrement())
+  user_id Int
+  users users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  bus_id Int
+  buses buses @relation(fields: [bus_id], references: [id], onDelete: Cascade)
+  rating Int
+  comment String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 }
