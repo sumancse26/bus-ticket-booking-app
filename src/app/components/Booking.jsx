@@ -1,16 +1,18 @@
-// src/components/BookingForm.js
-
+"use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const BookingForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [seat, setSeat] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle the booking submission logic here
     console.log({ name, email, seat });
+    router.push("/payment");
   };
 
   return (
@@ -25,7 +27,7 @@ const BookingForm = () => {
           <input
             type="text"
             placeholder="Enter full name"
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -35,7 +37,7 @@ const BookingForm = () => {
           <input
             type="email"
             placeholder="Enter email"
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -43,7 +45,7 @@ const BookingForm = () => {
         <div>
           <label className="block text-gray-700">Select Seat</label>
           <select
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
             value={seat}
             onChange={(e) => setSeat(e.target.value)}
           >

@@ -1,5 +1,6 @@
-// src/components/PaymentForm.js
+"use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const PaymentForm = () => {
@@ -7,10 +8,14 @@ const PaymentForm = () => {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
 
+  const router = useRouter();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle payment submission logic here
     console.log({ cardNumber, expiry, cvv });
+
+    router.push("/confirm");
   };
 
   return (
@@ -48,7 +53,7 @@ const PaymentForm = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+          className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
         >
           Pay Now
         </button>
