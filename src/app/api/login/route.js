@@ -1,5 +1,6 @@
 import prisma from "@/config/prisma";
-import { decryptPassword } from "@/utils/index.js";
+import { decryptPassword, jwtEncode } from "@/utils/index.js";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const POST = async (req) => {
@@ -29,6 +30,13 @@ export const POST = async (req) => {
         { success: false, message: "Invalid email or password" },
         { status: 400 }
       );
+
+    userInfo.token = await jwtEncode({
+      name: userInfo.name,
+      email: userInfo.email,
+    });
+
+    await cookies().set("token", userInfo.token, { httpOnly: true, path: "/" });
 
     return NextResponse.json(
       {
