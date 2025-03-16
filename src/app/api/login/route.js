@@ -1,4 +1,4 @@
-import prisma from "@/config/prisma";
+import prisma from "@/config/prisma.js";
 import { decryptPassword, jwtEncode } from "@/utils/index.js";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -36,12 +36,13 @@ export const POST = async (req) => {
       email: userInfo.email,
     });
 
-    await cookies().set("token", userInfo.token, { httpOnly: true, path: "/" });
+    const cookie = await cookies();
+    cookie.set("token", userInfo.token, { httpOnly: true, path: "/" });
 
     return NextResponse.json(
       {
         success: true,
-        message: "User fetched successfully",
+        message: "User logged in successfully",
         data: userInfo,
       },
       { status: 200 }

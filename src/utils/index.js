@@ -18,9 +18,3 @@ export const jwtEncode = async ({ name, email }) => {
     .sign(secret);
   return jwt;
 };
-
-// export const jwtDecode = async (token) => {
-//   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-//   const { payload } = await jwtVerify(token, secret);
-//   return payload;
-// };
