@@ -15,14 +15,22 @@ export async function middleware(req, res) {
     });
   }
 
-  if (req.nextUrl.pathname.startsWith("/api/private") && !reqToken) {
+  if (
+    (req.nextUrl.pathname.startsWith("/api/private") ||
+      req.nextUrl.pathname.startsWith("/api/dashboard")) &&
+    !reqToken
+  ) {
     return NextResponse.json({
       success: false,
       message: "Unauthorized user",
     });
   }
 
-  if (req.nextUrl.pathname.startsWith("/api/private") && reqToken) {
+  if (
+    (req.nextUrl.pathname.startsWith("/api/private") ||
+      req.nextUrl.pathname.startsWith("/api/dashboard")) &&
+    reqToken
+  ) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const decodedToken = await jwtVerify(reqToken, secret);
     reqHeaders.set("email", `${decodedToken.payload.email}`);
@@ -31,5 +39,5 @@ export async function middleware(req, res) {
     });
   }
 
-  return NextResponse.redirect("/");
+  return NextResponse.next();
 }

@@ -14,7 +14,7 @@ export const jwtEncode = async ({ name, email }) => {
   const jwt = await new SignJWT({ name: name, email })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("1h")
+    .setExpirationTime("24h")
     .sign(secret);
   return jwt;
 };
