@@ -86,9 +86,10 @@ model schedules {
 }
 
 enum bookingType {
- pending 
- confirmed
- cancelled
+  available
+  pending 
+  confirmed
+  cancelled
 }
 model booking {
   id Int @id @default(autoincrement())
