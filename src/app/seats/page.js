@@ -80,13 +80,13 @@ const BusSeatSelection = () => {
       </div>
 
       {/* Seat Layout */}
-      <div className="grid gap-2 bg-gray-50 p-4 rounded-lg">
+      <div className="!h-[400] grid gap-2 bg-gray-50 p-4 rounded-lg">
         {seatsData.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex justify-center gap-3">
+          <div key={rowIndex} className="!h-[400] flex justify-center gap-3">
             {row.map((seat, index) => (
               <button
                 key={index}
-                className={`w-10 h-10 flex items-center justify-center rounded-md text-sm font-medium ${
+                className={`w-10 h-[400px] flex items-center justify-center rounded-md text-sm font-medium ${
                   seat === ""
                     ? "invisible"
                     : soldSeats.includes(seat)

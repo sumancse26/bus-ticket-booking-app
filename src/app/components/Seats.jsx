@@ -106,7 +106,7 @@ const BusSeatSelection = ({ isOpen, modalHandler, selectedBus }) => {
         </div>
 
         {/* Seat Layout */}
-        <div className="flex flex-col items-center gap-1 mt-3">
+        <div className="flex flex-col items-center gap-1 mt-3 !h-[calc(100vh-340px)] overflow-auto">
           {seatsData.map((row, rowIndex) => (
             <div key={rowIndex} className="flex gap-2">
               {row.map((seat, index) => (
