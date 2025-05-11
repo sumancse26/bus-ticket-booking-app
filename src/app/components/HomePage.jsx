@@ -33,20 +33,26 @@ const Home = () => {
       >
         <div className="space-y-4">
           <div className="flex space-x-4">
-            <input
-              type="text"
-              placeholder="From"
+            <select
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-              value={from}
-              onChange={(e) => setFrom(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="To"
+              value={seats}
+              onChange={(e) => setSeats(e.target.value)}
+            >
+              <option value="">Select Seats</option>
+              <option value="1">1 Seat</option>
+              <option value="2">2 Seats</option>
+              <option value="3">3 Seats</option>
+            </select>
+            <select
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-              value={to}
-              onChange={(e) => setTo(e.target.value)}
-            />
+              value={seats}
+              onChange={(e) => setSeats(e.target.value)}
+            >
+              <option value="">Select Seats</option>
+              <option value="1">1 Seat</option>
+              <option value="2">2 Seats</option>
+              <option value="3">3 Seats</option>
+            </select>
           </div>
           <div className="flex space-x-4">
             <input

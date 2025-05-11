@@ -34,6 +34,8 @@ export const POST = async (req) => {
     userInfo.token = await jwtEncode({
       name: userInfo.name,
       email: userInfo.email,
+      user_id: userInfo.id,
+      role: userInfo.role,
     });
 
     const cookie = await cookies();

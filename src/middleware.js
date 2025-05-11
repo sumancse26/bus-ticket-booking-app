@@ -1,5 +1,6 @@
 import { jwtVerify } from "jose";
 import { NextResponse } from "next/server";
+
 export async function middleware(req, res) {
   const cookieList = req.cookies;
   const token = cookieList.get("token")?.value;
@@ -22,7 +23,7 @@ export async function middleware(req, res) {
   ) {
     return NextResponse.json({
       success: false,
-      message: "Unauthorized user",
+      message: "Unauthorized user, please login first",
     });
   }
 
@@ -34,6 +35,7 @@ export async function middleware(req, res) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const decodedToken = await jwtVerify(reqToken, secret);
     reqHeaders.set("email", `${decodedToken.payload.email}`);
+    reqHeaders.set("user_id", `${decodedToken.payload.user_id}`);
     return NextResponse.next({
       request: { headers: reqHeaders },
     });
