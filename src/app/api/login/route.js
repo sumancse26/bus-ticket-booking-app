@@ -1,6 +1,7 @@
 import prisma from "@/config/prisma.js";
 import { decryptPassword, jwtEncode } from "@/utils/index.js";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
+import Cookies from "js-cookie";
 import { NextResponse } from "next/server";
 
 export const POST = async (req) => {
@@ -38,8 +39,12 @@ export const POST = async (req) => {
       role: userInfo.role,
     });
 
-    const cookie = await cookies();
-    cookie.set("token", userInfo.token, { httpOnly: true, path: "/" });
+    // const cookie = await cookies();
+    Cookies.set("token", userInfo.token, {
+      httpOnly: true,
+      path: "/",
+      expires: 1,
+    });
 
     return NextResponse.json(
       {

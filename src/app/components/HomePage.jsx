@@ -1,17 +1,32 @@
 "use client";
+import { getLocations } from "@/services/busTickets.js";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SearchableDropdown from "./SearchableDropdown";
 
 const Home = () => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
   const [seats, setSeats] = useState("");
+  const [locations, setLocations] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const locations = await getLocations();
+      setLocations(locations.data || []);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle the form submission logic here (e.g., search for buses)
     console.log({ from, to, date, seats });
     router.push("/buses");
   };
@@ -33,44 +48,24 @@ const Home = () => {
       >
         <div className="space-y-4">
           <div className="flex space-x-4">
-            <select
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-              value={seats}
-              onChange={(e) => setSeats(e.target.value)}
-            >
-              <option value="">Select Seats</option>
-              <option value="1">1 Seat</option>
-              <option value="2">2 Seats</option>
-              <option value="3">3 Seats</option>
-            </select>
-            <select
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-              value={seats}
-              onChange={(e) => setSeats(e.target.value)}
-            >
-              <option value="">Select Seats</option>
-              <option value="1">1 Seat</option>
-              <option value="2">2 Seats</option>
-              <option value="3">3 Seats</option>
-            </select>
+            <SearchableDropdown
+              options={{ locations: locations, placeholder: "From" }}
+            />
+          </div>
+          <div className="flex space-x-4">
+            <SearchableDropdown
+              options={{ locations: locations, placeholder: "To" }}
+            />
           </div>
           <div className="flex space-x-4">
             <input
               type="date"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm bg-white text-gray-700 
+             focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 
+             hover:border-gray-400 transition duration-150 ease-in-out"
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
-            <select
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-              value={seats}
-              onChange={(e) => setSeats(e.target.value)}
-            >
-              <option value="">Select Seats</option>
-              <option value="1">1 Seat</option>
-              <option value="2">2 Seats</option>
-              <option value="3">3 Seats</option>
-            </select>
           </div>
           <button
             type="submit"
