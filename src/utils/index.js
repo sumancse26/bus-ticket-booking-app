@@ -51,3 +51,8 @@ export const filterObject = (
     return reduceStr.includes(searchKey);
   };
 };
+
+export const buildUrl = (url, params = {}) => {
+  const queryString = new URLSearchParams(params).toString();
+  return queryString ? `${url}?${queryString}` : url;
+};

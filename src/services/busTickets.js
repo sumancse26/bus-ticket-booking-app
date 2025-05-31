@@ -10,7 +10,11 @@ export const getLocations = async () => {
   });
   return data;
 };
-export const getSchedules = async () => {
-  const response = await fetchApi("/api/private/schedule", { method: "GET" });
-  return response;
+
+export const getSchedules = async (params) => {
+  const queryString = new URLSearchParams(params).toString();
+  const data = await fetchApi(`/api/schedule?${queryString}`, {
+    method: "GET",
+  });
+  return data;
 };

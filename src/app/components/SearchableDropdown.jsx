@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const SearchableDropdown = ({
-  options: { locations, placeholder },
+  options: { locations, placeholder, itemHandler },
 } = props) => {
   const [search, setSearch] = useState("");
   const [selectedLabel, setSelectedLabel] = useState("");
@@ -57,13 +57,10 @@ const SearchableDropdown = ({
   const filtered = locations.filter(
     createFilter(search, { deep: false, ignoreCase: true })
   );
-  const handleSelect = (selectedId) => {
-    setSelected(selectedId);
-
-    const selectedOption = locations.find((opt) => opt.id === selectedId);
-    setSelectedLabel(
-      selectedOption ? `${selectedOption.name}, ${selectedOption.country}` : ""
-    );
+  const handleSelect = (option) => {
+    setSelected(option.id);
+    itemHandler(option);
+    setSelectedLabel(option ? `${option.name}, ${option.country}` : "");
     setSearch("");
     setShowDropdown(false);
   };
@@ -93,7 +90,7 @@ const SearchableDropdown = ({
                 className={`px-4 py-2 hover:bg-green-100 cursor-pointer ${
                   selected === option.id ? "bg-green-50" : ""
                 }`}
-                onClick={() => handleSelect(option.id)}
+                onClick={() => handleSelect(option)}
               >
                 {option.name}, {option.country}
               </li>

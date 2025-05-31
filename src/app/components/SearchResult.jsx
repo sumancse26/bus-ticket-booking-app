@@ -11,25 +11,48 @@ const SearchResults = ({ buses }) => {
     setIsOpen(true);
   };
 
-  const modalHandler = (bus) => {
+  const modalHandler = () => {
     setIsOpen(false);
   };
 
   return (
-    <div className="container mx-auto py-8">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Available Buses</h2>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="container mx-auto px-4 py-10">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-10 relative">
+        <span className="inline-block animate-bounce text-green-600 text-3xl mr-2">
+          🚍
+        </span>
+        <span className="relative z-10">
+          Available Buses
+          <span className="block h-0.5 w-20 bg-green-500 rounded-full mx-auto mt-2"></span>
+        </span>
+      </h2>
+
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {buses?.map((bus, index) => (
           <div
             key={index}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl"
+            className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition duration-300 p-6 flex flex-col justify-between"
           >
-            <h3 className="text-xl font-semibold text-gray-800">{`Route: ${bus.from} to ${bus.to}`}</h3>
-            <span className="text-gray-600">Coach No. #53-P</span>
-            <p className="text-gray-600 mt-2"> {bus.departure}</p>
-            <p className="text-gray-600">Price: {bus.price} TK</p>
+            <div>
+              <h3 className="text-2xl font-semibold text-indigo-700 mb-2">{`${bus.from} ➝ ${bus.to}`}</h3>
+              <p className="text-sm text-gray-500 mb-1">
+                Coach No:
+                <span className="font-semibold text-gray-700">
+                  {bus.schedules?.buses?.bus_no || ""}
+                  {bus.schedules?.buses?.id ? "-" : ""}
+                  {bus.schedules?.buses?.bus_name || ""}
+                </span>
+              </p>
+              <p className="text-gray-600 mb-1">
+                🕒 Departure:{" "}
+                <span className="font-medium">{bus.departure}</span>
+              </p>
+              <p className="text-gray-600">
+                💰 Price: <span className="font-medium">{bus.price} TK</span>
+              </p>
+            </div>
             <button
-              className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+              className="mt-6 w-full bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition"
               onClick={() => selectSeatHandler(bus)}
             >
               Book Now
@@ -38,6 +61,7 @@ const SearchResults = ({ buses }) => {
         ))}
       </div>
 
+      {/* Seat Booking Modal */}
       <Seats
         isOpen={isOpen}
         modalHandler={modalHandler}

@@ -8,7 +8,6 @@ const Home = () => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
-  const [seats, setSeats] = useState("");
   const [locations, setLocations] = useState([]);
   const router = useRouter();
 
@@ -27,8 +26,20 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ from, to, date, seats });
-    router.push("/buses");
+    const query = new URLSearchParams({
+      from: from?.toLowerCase(),
+      to: to?.toLowerCase(),
+      journey_date: date,
+    }).toString();
+    router.push(`/buses?${query}`);
+  };
+
+  const fromHandler = (val) => {
+    setFrom(val.name);
+  };
+
+  const toHandler = (val) => {
+    setTo(val.name);
   };
 
   return (
@@ -49,12 +60,20 @@ const Home = () => {
         <div className="space-y-4">
           <div className="flex space-x-4">
             <SearchableDropdown
-              options={{ locations: locations, placeholder: "From" }}
+              options={{
+                locations: locations,
+                placeholder: "From",
+                itemHandler: fromHandler,
+              }}
             />
           </div>
           <div className="flex space-x-4">
             <SearchableDropdown
-              options={{ locations: locations, placeholder: "To" }}
+              options={{
+                locations: locations,
+                placeholder: "To",
+                itemHandler: toHandler,
+              }}
             />
           </div>
           <div className="flex space-x-4">
