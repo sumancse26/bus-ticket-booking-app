@@ -53,7 +53,7 @@ model buses {
   total_seats Int
   operator_id Int
   users users @relation(fields: [operator_id], references: [id], onDelete: Cascade)
-  schedules schedules[]
+  schedules schedules?
   reviews reviews[]
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -72,9 +72,9 @@ model routes {
 
 model schedules {
   id Int @id @default(autoincrement())
-  bus_id Int
+  bus_id Int @unique
   buses buses @relation(fields: [bus_id], references: [id], onDelete: Cascade)
-  route_id Int
+  route_id Int 
   routes routes @relation(fields: [route_id], references: [id], onDelete: Cascade)
   departure_time DateTime @default(now())
   arrival_time DateTime @default(now())
